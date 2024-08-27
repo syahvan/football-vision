@@ -5,16 +5,17 @@ import numpy as np
 from team_assigner import TeamAssigner
 from player_ball_assigner import PlayerBallAssigner
 from camera_movement_estimator import CameraMovementEstimator
-# from view_transformer import ViewTransformer
-# from speed_and_distance_estimator import SpeedAndDistance_Estimator
+from view_transformer import ViewTransformer
+from speed_and_distance_estimator import SpeedAndDistance_Estimator
+import argparse
 
 
-def main():
+def main(input_video, model_path):
     # Read Video
-    video_frames = read_video('input_videos/input.mp4')
+    video_frames = read_video(input_video)
 
     # Initialize Tracker
-    tracker = Tracker('models/player.pt')
+    tracker = Tracker(model_path)
 
     tracks = tracker.get_object_tracks(video_frames,
                                        read_from_stub=True,
@@ -31,16 +32,16 @@ def main():
     camera_movement_estimator.add_adjust_positions_to_tracks(tracks,camera_movement_per_frame)
 
 
-    # # View Trasnformer
-    # view_transformer = ViewTransformer()
-    # view_transformer.add_transformed_position_to_tracks(tracks)
+    # View Trasnformer
+    view_transformer = ViewTransformer()
+    view_transformer.add_transformed_position_to_tracks(tracks)
 
     # Interpolate Ball Positions
     tracks["ball"] = tracker.interpolate_ball_positions(tracks["ball"])
 
-    # # Speed and distance estimator
-    # speed_and_distance_estimator = SpeedAndDistance_Estimator()
-    # speed_and_distance_estimator.add_speed_and_distance_to_tracks(tracks)
+    # Speed and distance estimator
+    speed_and_distance_estimator = SpeedAndDistance_Estimator()
+    speed_and_distance_estimator.add_speed_and_distance_to_tracks(tracks)
 
     # Assign Player Teams
     team_assigner = TeamAssigner()
@@ -97,11 +98,17 @@ def main():
     ## Draw Camera movement
     output_video_frames = camera_movement_estimator.draw_camera_movement(output_video_frames,camera_movement_per_frame)
 
-    # ## Draw Speed and Distance
-    # speed_and_distance_estimator.draw_speed_and_distance(output_video_frames,tracks)
+    ## Draw Speed and Distance
+    speed_and_distance_estimator.draw_speed_and_distance(output_video_frames,tracks)
 
     # Save video
     save_video(output_video_frames, 'output_videos/output_video.avi')
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Analyze a football game video using a trained model.")
+    parser.add_argument("--input_video", type=str, required=True, help="Path to the input video file.")
+    parser.add_argument("--model_path", type=str, required=True, help="Path to the trained YOLO model file.")
+
+    args = parser.parse_args()
+    
+    main(args.input_video, args.model_path)
