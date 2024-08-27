@@ -46,6 +46,7 @@ class SpeedAndDistance_Estimator():
                             continue
                         tracks[object][frame_num_batch][track_id]['speed'] = speed_km_per_hour
                         tracks[object][frame_num_batch][track_id]['distance'] = total_distance[object][track_id]
+
     
     def draw_speed_and_distance(self,frames,tracks):
         output_frames = []
@@ -63,7 +64,8 @@ class SpeedAndDistance_Estimator():
                        bbox = track_info['bbox']
                        position = get_foot_position(bbox)
                        position = list(position)
-                       position[1]+=40
+                       position[1]+=50
+                       position[0]=bbox[0]-20
 
                        position = tuple(map(int,position))
                        cv2.putText(frame, f"{speed:.2f} km/h",position,cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,0),2)
