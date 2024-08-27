@@ -83,9 +83,12 @@ class CameraMovementEstimator():
         for frame_num, frame in enumerate(frames):
             frame= frame.copy()
 
+            # Draw a rectangle 
+            cv2.rectangle(frame, (80, 50), (645,175), (0,0,0), -1)
+
             x_movement, y_movement = camera_movement_per_frame[frame_num]
-            frame = cv2.putText(frame,f"Camera Movement X: {x_movement:.2f}",(1260,180), cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),3)
-            frame = cv2.putText(frame,f"Camera Movement Y: {y_movement:.2f}",(1260,220), cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),3)
+            frame = cv2.putText(frame,f"Camera Movement X: {x_movement:.2f}",(140,100), cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),3)
+            frame = cv2.putText(frame,f"Camera Movement Y: {y_movement:.2f}",(140,140), cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),3)
 
             output_frames.append(frame) 
 
