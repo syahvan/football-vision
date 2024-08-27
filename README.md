@@ -9,7 +9,7 @@ This project aims to enhance football game analysis by utilizing cutting-edge co
 ## Key Features
 
 - **Player and Ball Detection:** Utilizes YOLOv8 for detecting and tracking players and the ball in video frames.
-- **Color Segmentation:** Applies K-Means clustering for pixel segmentation to differentiate player t-shirt colors.
+- **Color Segmentation:** Applies K-Means clustering for pixel segmentation to differentiate player jersey colors.
 - **Motion Analysis:** Measures camera and player movements using Optical Flow for dynamic game analysis.
 - **Perspective Transformation:** Adjusts for camera angles to accurately represent scene depth and spatial relations.
 - **Speed and Distance Calculation:** Computes player speed and distance for performance metrics.
