@@ -168,9 +168,10 @@ class Tracker:
 
     def draw_team_ball_control(self,frame,frame_num,team_ball_control, team_colors):
         # Draw a rectangle 
-        cv2.rectangle(frame, (1200, 50), (1850,265), (0,0,0), -1)
+        cv2.rectangle(frame, (1200, 50), (1850,175), (0,0,0), -1)
 
         team_ball_control_till_frame = team_ball_control[:frame_num+1]
+        
         # Get the number of time each team had ball control
         team_1_num_frames = team_ball_control_till_frame[team_ball_control_till_frame==1].shape[0]
         team_2_num_frames = team_ball_control_till_frame[team_ball_control_till_frame==2].shape[0]
